@@ -1,0 +1,11 @@
+# Copy this file to cluster-config.hcl and fill in the values output by bootstrap.
+# Never commit cluster-config.hcl — only this .example template.
+#
+# Usage:
+#   cd infra/cluster-config
+#   terraform init -backend-config=../../backends/cluster-config.hcl
+
+resource_group_name  = "rg-tfstate-aksbase-prod"
+storage_account_name = "satfstate<random-suffix>"
+container_name       = "tfstate"
+key                  = "cluster-config.terraform.tfstate"

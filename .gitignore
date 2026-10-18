@@ -1,0 +1,54 @@
+# Allowlist-style: deny everything, then explicitly permit what belongs in the repo.
+
+# ── Deny all by default ──────────────────────────────────────────────────────
+*
+# Allow git to descend into subdirectories
+!*/
+
+# ── Terraform source & config ────────────────────────────────────────────────
+!*.tf
+!*.tfvars.example
+!*.hcl.example
+!.terraform.lock.hcl
+!.tflint.hcl
+
+# ── Documentation & diagrams ─────────────────────────────────────────────────
+!*.md
+!docs/**/*.png
+!docs/**/*.svg
+
+# ── CI/CD & GitOps ───────────────────────────────────────────────────────────
+!*.yaml
+!*.yml
+!gitops/**/*.json
+!.github/**/*.json
+
+# ── Repo meta ────────────────────────────────────────────────────────────────
+!.gitignore
+!.trivyignore
+!LICENSE
+
+# ── Re-ignore: sensitive / generated files that match allowed globs above ────
+CLAUDE.md
+.claude/
+.terraform/
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfplan
+*.plan
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.env
+.env.*
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*~

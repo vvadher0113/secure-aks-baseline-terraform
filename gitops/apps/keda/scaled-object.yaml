@@ -1,0 +1,25 @@
+# KEDA ScaledObject using the cron trigger — scales the keda-consumer deployment
+# between 1 and 5 replicas on a schedule. Swap the trigger for ServiceBus,
+# HTTP, or any of the 50+ KEDA scalers as needed.
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: keda-consumer-cron
+  namespace: keda-demo
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: keda-consumer
+  pollingInterval: 30
+  cooldownPeriod: 120
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  triggers:
+    - type: cron
+      metadata:
+        timezone: UTC
+        # Scale up Monday-Friday 08:00-18:00 UTC
+        start: "0 8 * * 1-5"
+        end:   "0 18 * * 1-5"
+        desiredReplicas: "5"

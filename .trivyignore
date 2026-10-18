@@ -1,0 +1,9 @@
+# .trivyignore — Trivy misconfiguration suppressions
+#
+# Format:
+#   <CHECK-ID>  # <one-line justification>
+#
+# Add suppressions here only for intentional design choices that cannot be
+# changed. Always include a justification comment explaining why.
+
+AZU-0012  # network access restrictions are opt-in via var.state_storage_restrict_network_access; default allows GitHub-hosted runner access
