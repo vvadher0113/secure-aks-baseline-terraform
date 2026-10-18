@@ -100,7 +100,7 @@ resource "azurerm_network_security_group" "private_endpoints" {
 
 module "hub_vnet" {
   source  = "Azure/avm-res-network-virtualnetwork/azurerm"
-  version = "0.20.0"
+  version = "0.22.3"
 
   name          = local.hub_vnet_name
   location      = var.location
@@ -143,7 +143,7 @@ module "hub_vnet" {
 
 module "spoke_vnet" {
   source  = "Azure/avm-res-network-virtualnetwork/azurerm"
-  version = "0.20.0"
+  version = "0.22.3"
 
   name          = local.spoke_vnet_name
   location      = var.location
