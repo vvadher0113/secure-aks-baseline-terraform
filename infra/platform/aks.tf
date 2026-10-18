@@ -13,7 +13,7 @@ resource "azurerm_user_assigned_identity" "aks" {
 
 module "aks" {
   source  = "Azure/avm-res-containerservice-managedcluster/azurerm"
-  version = "0.8.4"
+  version = "0.8.5"
 
   name      = local.aks_name
   location  = var.location
