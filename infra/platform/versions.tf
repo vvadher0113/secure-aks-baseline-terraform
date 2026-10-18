@@ -6,7 +6,7 @@ terraform {
       source = "hashicorp/azurerm"
       # 4.81.0 is the effective floor driven by AVM modules avm-res-containerservice-managedcluster 0.8.4
       # and avm-res-network-virtualnetwork 0.20.0.
-      version = ">= 4.81.0, < 5.0.0"
+      version = ">= 4.81.0, < 5.10.1"
     }
     azapi = {
       source  = "azure/azapi"
