@@ -1,0 +1,73 @@
+# Copy to terraform.tfvars and fill in real values.
+# Never commit terraform.tfvars; only this .example template.
+
+# ─── Global ───────────────────────────────────────────────────────────────────
+subscription_id = "00000000-0000-0000-0000-000000000000"
+tenant_id       = "00000000-0000-0000-0000-000000000000"
+location        = "eastus"
+environment     = "prod"
+workload        = "aksbase"
+
+tags = {
+  CostCenter = "platform"
+  Owner      = "platform-team@contoso.com"
+}
+
+# ─── Networking: Hub (10.0.0.0/22) ──────────────────────────────────────────
+hub_vnet_cidr        = "10.0.0.0/22"
+firewall_subnet_cidr = "10.0.0.0/26"    # AzureFirewallSubnet - Azure requires exactly /26
+bastion_subnet_cidr  = "10.0.0.128/26"  # AzureBastionSubnet  - /26 for Standard Bastion scale
+enable_bastion       = true
+# 10.0.0.64/26 is reserved for AzureFirewallManagementSubnet (forced-tunnel scenarios, not deployed)
+enable_gateway_subnet = false           # set true to reserve GatewaySubnet for VPN/ExpressRoute
+gateway_subnet_cidr   = "10.0.0.192/27" # GatewaySubnet       - minimum /27, reserved
+
+# ─── Networking: Spoke (10.1.0.0/20) ────────────────────────────────────────
+spoke_vnet_cidr              = "10.1.0.0/20"
+aks_system_subnet_cidr       = "10.1.0.0/24"  # /24 - 1 VNet IP per node (CNI Overlay)
+aks_user_subnet_cidr         = "10.1.4.0/22"  # /22 - room for large autoscaling pool
+private_endpoint_subnet_cidr = "10.1.8.0/24"  # /24 - ACR, Key Vault, and other private endpoints
+
+# ─── AKS Networking ──────────────────────────────────────────────────────────
+# pod_cidr is not routed in the VNet (CNI Overlay); verify it does not match
+# any on-premises 10.x ranges before deploying.
+pod_cidr           = "10.244.0.0/16"
+aks_service_cidr   = "172.16.0.0/16"
+aks_dns_service_ip = "172.16.0.10"
+aks_network_policy = "calico"
+
+# ─── Log Analytics ────────────────────────────────────────────────────────────
+log_analytics_retention_days = 90
+
+# ─── Key Vault ────────────────────────────────────────────────────────────────
+# Replace with the object ID of the Entra ID group that manages secrets
+key_vault_admin_object_ids           = ["00000000-0000-0000-0000-000000000000"]
+key_vault_soft_delete_retention_days = 90
+key_vault_sku                        = "standard"
+
+# ─── AKS ──────────────────────────────────────────────────────────────────────
+kubernetes_version        = null   # null = latest supported
+automatic_channel_upgrade = "stable"
+
+system_node_pool_vm_size         = "Standard_D4ds_v5"
+system_node_pool_count           = 3
+system_node_pool_os_disk_size_gb = 128
+
+user_node_pool_vm_size         = "Standard_D8ds_v5"
+user_node_pool_min_count       = 1
+user_node_pool_max_count       = 10
+user_node_pool_initial_count   = 3
+user_node_pool_os_disk_size_gb = 128
+
+aks_availability_zones = ["1", "2", "3"]
+
+# Replace with the object ID of the Entra ID group for cluster administrators
+aks_admin_group_object_ids = ["00000000-0000-0000-0000-000000000000"]
+
+aks_defender_enabled          = true
+aks_workload_identity_enabled = true
+aks_secret_rotation_enabled   = true
+
+maintenance_window_day      = "Sunday"
+maintenance_window_hour_utc = 2
+

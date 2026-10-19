@@ -1,0 +1,16 @@
+# Stage 2: values can be copied from stage 1 outputs.
+# Never commit terraform.tfvars; only this .example template.
+
+subscription_id         = "00000000-0000-0000-0000-000000000000"
+aks_resource_group_name = "rg-spoke-aksbase-prod"
+aks_cluster_name        = "aks-aksbase-prod"
+acr_login_server        = "acraksbaseprod.azurecr.io"
+
+argocd_namespace          = "argocd"
+argocd_chart_version      = "7.6.1"
+argocd_apps_chart_version = "2.0.2"
+argocd_image_tag          = "v2.12.3"
+argocd_redis_image_tag    = "7.0.15-alpine"
+
+gitops_repo_url             = "https://github.com/contoso/aks-gitops"
+gitops_repo_target_revision = "main"

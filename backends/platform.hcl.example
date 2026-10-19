@@ -1,0 +1,11 @@
+# Copy this file to platform.hcl and fill in the values output by bootstrap.
+# Never commit platform.hcl; only this .example template.
+#
+# Usage:
+#   cd infra/platform
+#   terraform init -backend-config=../../backends/platform.hcl
+
+resource_group_name  = "rg-tfstate-aksbase-prod"
+storage_account_name = "satfstate<random-suffix>"
+container_name       = "tfstate"
+key                  = "platform.terraform.tfstate"
