@@ -189,8 +189,18 @@ kubectl get applications -n argocd
    and fill in the values from step 1. This file is gitignored; CI uses repository
    variables instead.
 
-All CI jobs (`lint`, `security-scan`, `plan`, `apply`, `drift`) run on
-`ubuntu-latest`. The state storage account allows public access by default so
+### CI vs deployment
+
+| Workflow | Trigger | Needs Azure |
+|---|---|---|
+| `pr-plan.yml`: lint, validate, tflint, Checkov, Trivy | Pull request | No |
+| `pr-plan.yml`: plan job | Pull request | Yes, skipped unless `AZURE_SUBSCRIPTION_ID` is set |
+| `apply.yml` | Manual (`workflow_dispatch`) | Yes, skipped unless configured |
+| `drift.yml` | Manual (`workflow_dispatch`) | Yes, skipped unless configured |
+
+Lint and security scans run on every pull request without any cloud access. The plan, apply, and drift jobs are reference deployment workflows: they run only after you configure OIDC and the repository variables below. To run drift detection nightly in your own environment, add a `schedule` trigger to `drift.yml`.
+
+All jobs run on `ubuntu-latest`. The state storage account allows public access by default so
 GitHub-hosted runners can reach the backend without VNet connectivity.
 
 **Required repository variables (Settings > Secrets and variables > Actions > Variables)**

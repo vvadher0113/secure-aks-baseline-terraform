@@ -1,9 +1,9 @@
+# Reference deployment workflow. It runs only when triggered manually and
+# skips unless the Azure repository variables are configured (OIDC, state
+# backend). This repo is a portfolio baseline and is not deployed by default.
 name: Drift Detection
 
 on:
-  schedule:
-    # Runs every night at 02:00 UTC
-    - cron: "0 2 * * *"
   workflow_dispatch:
 
 permissions:
@@ -29,6 +29,7 @@ env:
 jobs:
   drift:
     name: Detect Drift
+    if: vars.AZURE_SUBSCRIPTION_ID != ''
     runs-on: ubuntu-latest
     defaults:
       run:

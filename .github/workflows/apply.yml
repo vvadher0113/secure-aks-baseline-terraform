@@ -1,12 +1,10 @@
+# Reference deployment workflow. It runs only when triggered manually and
+# skips unless the Azure repository variables are configured (OIDC, state
+# backend). This repo is a portfolio baseline and is not deployed by default.
 name: Apply
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "infra/platform/**"
-      - ".github/workflows/apply.yml"
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -30,6 +28,7 @@ env:
 jobs:
   plan:
     name: Terraform Plan
+    if: vars.AZURE_SUBSCRIPTION_ID != ''
     runs-on: ubuntu-latest
     environment: production-plan
     defaults:
