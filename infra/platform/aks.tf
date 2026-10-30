@@ -1,4 +1,4 @@
-# ─── AKS Control Plane Identity ──────────────────────────────────────────────
+# AKS Control Plane Identity
 # User-assigned identity gives full lifecycle control and a stable principal_id
 # for downstream role assignments (preferable to system-assigned for UDR clusters).
 
@@ -9,7 +9,7 @@ resource "azurerm_user_assigned_identity" "aks" {
   tags                = local.default_tags
 }
 
-# ─── AKS Cluster ─────────────────────────────────────────────────────────────
+# AKS Cluster
 
 module "aks" {
   source  = "Azure/avm-res-containerservice-managedcluster/azurerm"
@@ -21,13 +21,13 @@ module "aks" {
 
   kubernetes_version = var.kubernetes_version
 
-  # ── Identity ─────────────────────────────────────────────────────────────
+  # Identity
   managed_identities = {
     system_assigned            = false
     user_assigned_resource_ids = [azurerm_user_assigned_identity.aks.id]
   }
 
-  # ── System Node Pool (critical add-ons only) ──────────────────────────────
+  # System Node Pool (critical add-ons only)
   # Tainted with CriticalAddonsOnly so workloads schedule only on user pool.
   default_agent_pool = {
     name                         = "system"
@@ -52,7 +52,7 @@ module "aks" {
     }
   }
 
-  # ── User Node Pool (application workloads) ────────────────────────────────
+  # User Node Pool (application workloads)
   agent_pools = {
     user = {
       name                   = "user"
@@ -79,7 +79,7 @@ module "aks" {
     }
   }
 
-  # ── Networking ────────────────────────────────────────────────────────────
+  # Networking
   # Azure CNI Overlay: nodes use spoke VNet IPs, pods use a separate CIDR
   # that lives entirely outside the VNet address space. This allows large pod
   # counts without consuming VNet IP addresses.
@@ -97,7 +97,7 @@ module "aks" {
     ip_families         = ["IPv4"]
   }
 
-  # ── Private Cluster ───────────────────────────────────────────────────────
+  # Private Cluster
   # BYO private DNS zone keeps the zone in Terraform state, lets us link the
   # hub VNet so the firewall and Bastion can resolve the API server, and avoids
   # the MC_ resource group dependency that "System" would create.
@@ -107,7 +107,7 @@ module "aks" {
     enable_private_cluster_public_fqdn = false
   }
 
-  # ── Entra ID RBAC ────────────────────────────────────────────────────────
+  # Entra ID RBAC
   aad_profile = {
     managed                = true
     enable_azure_rbac      = true
@@ -117,18 +117,18 @@ module "aks" {
   # Disable local Kubernetes accounts; all authentication flows through Entra ID
   disable_local_accounts = true
 
-  # ── Upgrade ──────────────────────────────────────────────────────────────
+  # Upgrade
   auto_upgrade_profile = {
     upgrade_channel         = var.automatic_channel_upgrade
     node_os_upgrade_channel = "NodeImage"
   }
 
-  # ── Workload Identity and OIDC ────────────────────────────────────────────
+  # Workload Identity and OIDC
   oidc_issuer_profile = {
     enabled = var.aks_workload_identity_enabled
   }
 
-  # ── Security Profile ─────────────────────────────────────────────────────
+  # Security Profile
   security_profile = {
     workload_identity = {
       enabled = var.aks_workload_identity_enabled
@@ -141,7 +141,7 @@ module "aks" {
     } : null
   }
 
-  # ── Container Insights ───────────────────────────────────────────────────
+  # Container Insights
   addon_profile_oms_agent = {
     enabled = true
     config = {
@@ -150,12 +150,12 @@ module "aks" {
     }
   }
 
-  # ── Azure Policy Add-on ───────────────────────────────────────────────────
+  # Azure Policy Add-on
   addon_profile_azure_policy = {
     enabled = true
   }
 
-  # ── Key Vault Secrets Store CSI Driver ───────────────────────────────────
+  # Key Vault Secrets Store CSI Driver
   addon_profile_key_vault_secrets_provider = {
     enabled = true
     config = {
@@ -164,7 +164,7 @@ module "aks" {
     }
   }
 
-  # ── KEDA (Kubernetes Event-Driven Autoscaling) ────────────────────────────
+  # KEDA (Kubernetes Event-Driven Autoscaling)
   # Variable renamed workload_autoscaler_profile -> workload_auto_scaler_profile
   # in module 0.8.x. Confirmed against 0.8.4 inputs.
   workload_auto_scaler_profile = {
@@ -173,7 +173,7 @@ module "aks" {
     }
   }
 
-  # ── Maintenance Window ────────────────────────────────────────────────────
+  # Maintenance Window
   maintenanceconfiguration = {
     default = {
       name = "default"

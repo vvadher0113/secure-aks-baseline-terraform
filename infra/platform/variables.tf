@@ -1,4 +1,4 @@
-# ─── Global ───────────────────────────────────────────────────────────────────
+# Global
 
 variable "subscription_id" {
   type        = string
@@ -44,7 +44,7 @@ variable "enable_telemetry" {
   default     = true
 }
 
-# ─── Networking: Hub ─────────────────────────────────────────────────────────
+# Networking: Hub
 
 variable "hub_vnet_cidr" {
   type        = string
@@ -105,7 +105,7 @@ variable "gateway_subnet_cidr" {
   }
 }
 
-# ─── Networking: Spoke ────────────────────────────────────────────────────────
+# Networking: Spoke
 
 variable "spoke_vnet_cidr" {
   type        = string
@@ -152,7 +152,7 @@ variable "private_endpoint_subnet_cidr" {
   }
 }
 
-# ─── AKS Networking ──────────────────────────────────────────────────────────
+# AKS Networking
 
 variable "pod_cidr" {
   type        = string
@@ -217,7 +217,7 @@ variable "aks_network_policy" {
   }
 }
 
-# ─── Log Analytics ────────────────────────────────────────────────────────────
+# Log Analytics
 
 variable "log_analytics_sku" {
   type        = string
@@ -235,7 +235,7 @@ variable "log_analytics_retention_days" {
   }
 }
 
-# ─── Key Vault ────────────────────────────────────────────────────────────────
+# Key Vault
 
 variable "key_vault_name" {
   type        = string
@@ -269,7 +269,7 @@ variable "key_vault_admin_object_ids" {
   default     = []
 }
 
-# ─── ACR ──────────────────────────────────────────────────────────────────────
+# ACR
 
 variable "acr_name" {
   type        = string
@@ -283,7 +283,7 @@ variable "acr_geo_replication_locations" {
   default     = []
 }
 
-# ─── AKS ──────────────────────────────────────────────────────────────────────
+# AKS
 
 variable "kubernetes_version" {
   type        = string

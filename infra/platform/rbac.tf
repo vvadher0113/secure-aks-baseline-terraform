@@ -1,4 +1,4 @@
-# ─── AKS Control Plane: Private DNS Zone Contributor ─────────────────────────
+# AKS Control Plane: Private DNS Zone Contributor
 # Required for the AKS control plane to create the A record for the private
 # API server endpoint in the BYO private DNS zone.
 
@@ -9,7 +9,7 @@ resource "azurerm_role_assignment" "aks_dns_zone_contributor" {
   principal_type       = "ServicePrincipal"
 }
 
-# ─── AKS Control Plane: Network Contributor ──────────────────────────────────
+# AKS Control Plane: Network Contributor
 # Required for the control plane to manage load balancer NICs and attach
 # them to the AKS subnets under UDR egress.
 
@@ -27,7 +27,7 @@ resource "azurerm_role_assignment" "aks_network_contributor_user" {
   principal_type       = "ServicePrincipal"
 }
 
-# ─── Kubelet Identity: AcrPull ────────────────────────────────────────────────
+# Kubelet Identity: AcrPull
 # Allows nodes to pull images from the private ACR without storing credentials.
 
 resource "azurerm_role_assignment" "acr_pull" {
@@ -39,7 +39,7 @@ resource "azurerm_role_assignment" "acr_pull" {
   depends_on = [module.aks, module.acr]
 }
 
-# ─── Kubelet Identity: Key Vault Secrets User ─────────────────────────────────
+# Kubelet Identity: Key Vault Secrets User
 # Required for the Key Vault CSI driver to read secrets into pods.
 
 resource "azurerm_role_assignment" "kv_secrets_user" {
@@ -51,7 +51,7 @@ resource "azurerm_role_assignment" "kv_secrets_user" {
   depends_on = [module.aks, module.key_vault]
 }
 
-# ─── Kubelet Identity: Monitoring Metrics Publisher ───────────────────────────
+# Kubelet Identity: Monitoring Metrics Publisher
 # Required when Container Insights uses managed identity auth (use_aad_auth = true).
 # The OMS agent uses the kubelet identity to publish metrics to Azure Monitor.
 

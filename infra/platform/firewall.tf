@@ -1,4 +1,4 @@
-# ─── Public IPs ──────────────────────────────────────────────────────────────
+# Public IPs
 
 resource "azurerm_public_ip" "firewall" {
   name                = "pip-afw-${local.suffix}"
@@ -21,7 +21,7 @@ resource "azurerm_public_ip" "bastion" {
   tags                = local.default_tags
 }
 
-# ─── Azure Firewall Policy ───────────────────────────────────────────────────
+# Azure Firewall Policy
 # Standard tier; upgrade to Premium for IDPS and TLS inspection in production
 # regulated environments.
 
@@ -43,7 +43,7 @@ resource "azurerm_firewall_policy" "main" {
   }
 }
 
-# ─── Firewall Rule Collections ───────────────────────────────────────────────
+# Firewall Rule Collections
 
 resource "azurerm_firewall_policy_rule_collection_group" "aks" {
   name               = "rcg-aks-egress"
@@ -136,7 +136,7 @@ resource "azurerm_firewall_policy_rule_collection_group" "aks" {
   }
 }
 
-# ─── Azure Firewall ───────────────────────────────────────────────────────────
+# Azure Firewall
 
 resource "azurerm_firewall" "main" {
   name                = local.firewall_name
@@ -157,7 +157,7 @@ resource "azurerm_firewall" "main" {
   depends_on = [module.log_analytics]
 }
 
-# ─── Firewall Diagnostics ────────────────────────────────────────────────────
+# Firewall Diagnostics
 # Resource-specific destination writes each log category to its own table
 # (AZFWApplicationRule, AZFWNetworkRule, AZFWDnsQuery, etc.) for efficient
 # KQL queries instead of the generic AzureDiagnostics catch-all.
@@ -179,7 +179,7 @@ resource "azurerm_monitor_diagnostic_setting" "firewall" {
   depends_on = [azurerm_firewall.main]
 }
 
-# ─── Azure Bastion ────────────────────────────────────────────────────────────
+# Azure Bastion
 # Optional Standard-tier Bastion for secure SSH/RDP to nodes without a public IP.
 
 resource "azurerm_bastion_host" "main" {

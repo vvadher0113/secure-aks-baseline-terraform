@@ -1,4 +1,4 @@
-# ─── Resource Groups ─────────────────────────────────────────────────────────
+# Resource Groups
 
 output "hub_resource_group_name" {
   description = "Name of the hub resource group (connectivity resources)."
@@ -10,7 +10,7 @@ output "spoke_resource_group_name" {
   value       = module.spoke_resource_group.name
 }
 
-# ─── Networking ──────────────────────────────────────────────────────────────
+# Networking
 
 output "hub_vnet_id" {
   description = "Resource ID of the hub Virtual Network."
@@ -27,7 +27,7 @@ output "firewall_private_ip" {
   value       = azurerm_firewall.main.ip_configuration[0].private_ip_address
 }
 
-# ─── AKS ─────────────────────────────────────────────────────────────────────
+# AKS
 
 output "aks_cluster_name" {
   description = "AKS cluster name."
@@ -69,7 +69,7 @@ output "aks_control_plane_identity_principal_id" {
   value       = azurerm_user_assigned_identity.aks.principal_id
 }
 
-# ─── ACR ─────────────────────────────────────────────────────────────────────
+# ACR
 
 output "acr_login_server" {
   description = "ACR login server URL."
@@ -86,7 +86,7 @@ output "acr_resource_id" {
   value       = module.acr.resource_id
 }
 
-# ─── Key Vault ───────────────────────────────────────────────────────────────
+# Key Vault
 
 output "key_vault_uri" {
   description = "Key Vault URI."
@@ -98,7 +98,7 @@ output "key_vault_id" {
   value       = module.key_vault.resource_id
 }
 
-# ─── Log Analytics ───────────────────────────────────────────────────────────
+# Log Analytics
 
 output "log_analytics_workspace_id" {
   description = "Log Analytics Workspace resource ID."

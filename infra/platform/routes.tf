@@ -1,4 +1,4 @@
-# ─── Route Tables ─────────────────────────────────────────────────────────────
+# Route Tables
 # Force all outbound traffic from AKS node subnets through Azure Firewall.
 # AKS uses outbound_type = "userDefinedRouting" so it never manages these routes.
 
@@ -36,7 +36,7 @@ resource "azurerm_route" "aks_user_default" {
   next_hop_in_ip_address = azurerm_firewall.main.ip_configuration[0].private_ip_address
 }
 
-# ─── Route Table Associations ────────────────────────────────────────────────
+# Route Table Associations
 
 resource "azurerm_subnet_route_table_association" "aks_system" {
   subnet_id      = module.spoke_vnet.subnets["snet-aks-system"].resource_id

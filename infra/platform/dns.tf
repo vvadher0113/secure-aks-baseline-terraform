@@ -1,4 +1,4 @@
-# ─── Private DNS Zone: AKS Private API Server ────────────────────────────────
+# Private DNS Zone: AKS Private API Server
 # BYO zone so Terraform owns the lifecycle. The AKS managed identity needs
 # Private DNS Zone Contributor on this zone (see rbac.tf) so it can create
 # the A record for the private API server endpoint.
@@ -28,7 +28,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "aks_api_hub" {
   tags                  = local.default_tags
 }
 
-# ─── Private DNS Zone: Azure Container Registry ──────────────────────────────
+# Private DNS Zone: Azure Container Registry
 
 resource "azurerm_private_dns_zone" "acr" {
   name                = "privatelink.azurecr.io"
@@ -55,7 +55,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "acr_hub" {
   tags                  = local.default_tags
 }
 
-# ─── Private DNS Zone: Key Vault ─────────────────────────────────────────────
+# Private DNS Zone: Key Vault
 
 resource "azurerm_private_dns_zone" "key_vault" {
   name                = "privatelink.vaultcore.azure.net"

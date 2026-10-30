@@ -7,7 +7,7 @@ data "azurerm_kubernetes_cluster" "platform" {
   resource_group_name = var.aks_resource_group_name
 }
 
-# ─── ACR Image Import ─────────────────────────────────────────────────────────
+# ACR Image Import
 # Copies ArgoCD and Redis images from their upstream registries into the private
 # ACR so nodes never pull from the internet at runtime. Uses the az acr import
 # control-plane API, which does not require VNet connectivity. Re-runs whenever
@@ -40,7 +40,7 @@ resource "terraform_data" "argocd_images" {
   }
 }
 
-# ─── Argo CD Namespace ────────────────────────────────────────────────────────
+# Argo CD Namespace
 
 resource "kubernetes_namespace" "argocd" {
   metadata {
@@ -51,7 +51,7 @@ resource "kubernetes_namespace" "argocd" {
   }
 }
 
-# ─── Argo CD Installation ─────────────────────────────────────────────────────
+# Argo CD Installation
 # Installed from the official Helm chart with images served from the private ACR.
 # SSO is not configured in this baseline. The initial admin password is stored
 # in the argocd-initial-admin-secret Secret in the argocd namespace. Retrieve it:
@@ -138,7 +138,7 @@ resource "helm_release" "argocd" {
   ]
 }
 
-# ─── App-of-Apps Bootstrap ────────────────────────────────────────────────────
+# App-of-Apps Bootstrap
 # Uses the argocd-apps Helm chart to deploy the root Application resource.
 # Helm manages the Application manifest, so terraform plan does not need the
 # Argo CD CRD registered ahead of time (unlike kubernetes_manifest).

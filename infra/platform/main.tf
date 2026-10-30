@@ -1,4 +1,4 @@
-# ─── Hub Resource Group ──────────────────────────────────────────────────────
+# Hub Resource Group
 # Connectivity resources: firewall, bastion, hub VNet
 
 module "hub_resource_group" {
@@ -11,7 +11,7 @@ module "hub_resource_group" {
   enable_telemetry = var.enable_telemetry
 }
 
-# ─── Spoke Resource Group ────────────────────────────────────────────────────
+# Spoke Resource Group
 # Workload resources: AKS, ACR, Key Vault, Log Analytics, spoke VNet
 
 module "spoke_resource_group" {

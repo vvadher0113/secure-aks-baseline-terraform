@@ -1,4 +1,4 @@
-# ─── NSGs ────────────────────────────────────────────────────────────────────
+# NSGs
 # Created before VNet modules so they can be referenced inline as subnet props.
 
 resource "azurerm_network_security_group" "aks_system" {
@@ -94,7 +94,7 @@ resource "azurerm_network_security_group" "private_endpoints" {
   tags                = local.default_tags
 }
 
-# ─── Hub VNet ────────────────────────────────────────────────────────────────
+# Hub VNet
 # Contains Azure Firewall and optional Bastion. All egress from the spoke
 # flows through the firewall via UDR.
 
@@ -137,7 +137,7 @@ module "hub_vnet" {
   )
 }
 
-# ─── Spoke VNet ──────────────────────────────────────────────────────────────
+# Spoke VNet
 # Hosts AKS node pools and private endpoints. All outbound traffic is forced
 # through the hub firewall via route tables defined in routes.tf.
 
@@ -185,7 +185,7 @@ module "spoke_vnet" {
   }
 }
 
-# ─── VNet Peering ─────────────────────────────────────────────────────────────
+# VNet Peering
 # Bidirectional peering lets firewall see spoke traffic and Bastion reach nodes.
 
 resource "azurerm_virtual_network_peering" "hub_to_spoke" {
