@@ -71,7 +71,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Checkov
-        uses: bridgecrewio/checkov-action@6f26dc90000b74feb589a906cdfae540f5119895 # v12.3134.0
+        uses: bridgecrewio/checkov-action@c10e2438743528f9e4549758fad8b7a62052541d # v12.3136.0
         with:
           directory: infra/platform
           framework: terraform
