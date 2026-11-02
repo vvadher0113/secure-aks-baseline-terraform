@@ -1,6 +1,6 @@
 module "acr" {
   source  = "Azure/avm-res-containerregistry-registry/azurerm"
-  version = "0.8.0"
+  version = "0.9.0"
 
   name                = local.acr_name
   location            = var.location
